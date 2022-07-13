@@ -1,0 +1,9 @@
+.env
+front/node_modules/
+back/node_modules/
+build/
+.idea/
+back/.env
+front/.env
+back/build/
+front/build/
