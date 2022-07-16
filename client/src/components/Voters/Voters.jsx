@@ -84,11 +84,13 @@ function Voters({ setNotification }) {
             du wallet.</p>
 
             <h3>Liste des électeurs</h3>
+            <br/>
             {addresses.map((ad) => (
                 <div className="list-voters" key={ad}>{ad}</div>
             ))}
 
-            <h3>Détail d'un électeur</h3>
+            <br/>
+            <h3>Tapez l'adresse d'un électeur pour voir les détails</h3>
             <div className="section-block">
                 <div>
                     <input
@@ -113,7 +115,7 @@ function Voters({ setNotification }) {
                     }
                  </div>
             </div>
-
+            <br/>
             <h3>Ajouter un électeur</h3>
 
             <p>Attention, seul le propriétaire peut ajouter un électeur</p>
