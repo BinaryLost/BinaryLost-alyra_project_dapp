@@ -3,7 +3,7 @@ import useEth from "../../contexts/EthContext/useEth";
 import './Voters.css'
 import StyledButton from "../Buttons/StyledButton";
 
-function Voters() {
+function Voters({ setNotification }) {
 
     const voterEle = useRef(null);
 
@@ -27,6 +27,29 @@ function Voters() {
         };
     }, [voterAddress,voterHasVoted,voterProposalVotedId,voterIsRegistered]);
 
+    useEffect(() => {
+        logAdresses();
+    }, []);
+
+
+    const logAdresses = async () => {
+        let options = {
+            fromBlock: '0',
+            to: 'latest'
+        };
+        const listAddresses = await contract.getPastEvents('VoterRegistered', options).then(
+            (r)=>{
+                let toArray = [];
+                for (const k in r){
+                    toArray[k] = r[k].returnValues[0];
+                }
+                setAddresses(toArray);
+            }
+        );
+        return listAddresses;
+    };
+
+
     const handleInputGetVoterChange = e => {
         setInputValue(e.target.value);
     };
@@ -46,12 +69,11 @@ function Voters() {
     const addVoter = async () => {
         try{
             const transac = await contract.methods.addVoter(inputAddValue).send({ from: accounts[0] });
-            getVoter(inputAddValue)
-            console.log("l'adresse est celle ci: " + transac.events.dataStored.returnValues.addr);
-            console.log("la data est celle ci: " + transac.events.dataStored.returnValues.data);
-            console.log(transac.message);
+            const eventChange = await transac.events.VoterRegistered.returnValues.voterAddress;
+            setNotification(`L'électeur ${eventChange} a bien été ajouté à la liste`);
+            logAdresses();
         }catch(error){
-            console.log(error.message);
+            console.error(error.message);
         }
     };
 
@@ -62,11 +84,9 @@ function Voters() {
             du wallet.</p>
 
             <h3>Liste des électeurs</h3>
-            <div>
-                {addresses.map((address) => (
-                    <tr><td>{address.returnValues.addr}</td></tr>
-                ))}
-            </div>
+            {addresses.map((ad) => (
+                <div className="list-voters" key={ad}>{ad}</div>
+            ))}
 
             <h3>Détail d'un électeur</h3>
             <div className="section-block">
@@ -91,10 +111,13 @@ function Voters() {
                         Proposition votée: <strong>{voterProposalVotedId}</strong>
                         </>
                     }
+                 </div>
             </div>
-            </div>
+
             <h3>Ajouter un électeur</h3>
+
             <p>Attention, seul le propriétaire peut ajouter un électeur</p>
+
             <div  className="section-block">
                 <input
                     type="text"

@@ -1,36 +1,43 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import './Steps.css'
 
 function Steps() {
-    const { state } = useEth();
-    const [contractAddress,setContractAddress] = useState(null);
+    const { state: { contract, accounts } } = useEth();
     const [currentStep,setCurrentStep] = useState(null);
+    const workflowStatusArray =  [
+        'Etape d\'enregistrement des électeurs ouverte',
+        'Etape des propositions ouverte',
+        'Etape des propositions terminée',
+        'Etape des votes ouverte',
+        'Etape des votes terminée',
+        'Les votes ont été comptabilisés'
+    ]
 
-    const getContractData = async () => {
+    useEffect(() => {
+        getCurrentStep();
+    }, []);
+
+
+    const getCurrentStep = async () => {
         try {
-            setContractAddress(await state.artifact.networks[state.networkID].address);
+            const value = await contract.methods.workflowStatus().call({ from: accounts[0] })
+            setCurrentStep(workflowStatusArray[value])
         }catch (error){
         }
     }
-    getContractData();
 
     return (
         <>
             <h2>Le déroulement du vote</h2>
-            <h3></h3>
+            <h3 className="bold" id="current-step">{currentStep}</h3>
 
-            <p><span className="bold">Adresse du contrat : </span><span id="address-container">{ contractAddress }</span> </p>
             <p>
                 Le propriétaire du contrat ouvrira la session des propositions après avoir ajouté les électeurs.
                 Une fois la sessions des propositions closes, l'ouverture de la session de vote aura lieu.
                 la proposition ayant récolté le plus de votes sera retenue.
             </p>
-            <ul>
-                <li>Etape précédente:</li>
-                <li>Etape actuelle: {currentStep}</li>
-                <li>Etape suivante:</li>
-            </ul>
+
 
         </>
     )
