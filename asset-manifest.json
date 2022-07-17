@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/BinaryLost-alyra_project_dapp/static/css/main.be976c91.chunk.css",
-    "main.js": "/BinaryLost-alyra_project_dapp/static/js/main.ff94792f.chunk.js",
-    "main.js.map": "/BinaryLost-alyra_project_dapp/static/js/main.ff94792f.chunk.js.map",
+    "main.js": "/BinaryLost-alyra_project_dapp/static/js/main.ee4e6798.chunk.js",
+    "main.js.map": "/BinaryLost-alyra_project_dapp/static/js/main.ee4e6798.chunk.js.map",
     "runtime-main.js": "/BinaryLost-alyra_project_dapp/static/js/runtime-main.3ca5fa8b.js",
     "runtime-main.js.map": "/BinaryLost-alyra_project_dapp/static/js/runtime-main.3ca5fa8b.js.map",
     "static/js/2.af38ff82.chunk.js": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.3ca5fa8b.js",
     "static/js/2.af38ff82.chunk.js",
     "static/css/main.be976c91.chunk.css",
-    "static/js/main.ff94792f.chunk.js"
+    "static/js/main.ee4e6798.chunk.js"
   ]
 }
