@@ -16,7 +16,11 @@ function ContractAddress() {
     }catch (error){
     }
   }
-  return <div id="contract-address-reminder" className="sub-container"><span className="bold">L'adresse du contrat est : </span ><span className="contract-address">{contractAddress}</span></div>
+  return <div id="contract-address-reminder" className="sub-container"><span className="bold">L'adresse du contrat est : </span >
+          <a href={ "https://ropsten.etherscan.io/address/" + contractAddress}>
+            <span className="contract-address">{contractAddress}</span>
+          </a>
+      </div>
 }
 
 export default ContractAddress;

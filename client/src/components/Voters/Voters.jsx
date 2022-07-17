@@ -3,12 +3,11 @@ import useEth from "../../contexts/EthContext/useEth";
 import './Voters.css'
 import StyledButton from "../Buttons/StyledButton";
 
-function Voters({ setNotification }) {
+function Voters({workflowStatusArray,currentStep, setNotification }) {
 
     const voterEle = useRef(null);
 
     const { state: { contract, accounts } } = useEth();
-    const [inputValue,setInputValue] = useState('');
     const [inputAddValue,setInputAddValue] = useState('');
     const [voterAddress,setVoterAddress] = useState('');
     const [voterHasVoted,setVoterHasVoted] = useState(false);
@@ -49,18 +48,14 @@ function Voters({ setNotification }) {
         return listAddresses;
     };
 
-
-    const handleInputGetVoterChange = e => {
-        setInputValue(e.target.value);
-    };
-
     const handleInputAddVoterChange = e => {
         setInputAddValue(e.target.value);
     };
 
-    const getVoter = async () => {
-        const value = await contract.methods.getVoter(inputValue).call({ from: accounts[0] })
-        setVoterAddress(inputValue);
+    const getVoter = async (e) => {
+        const voterRequested = e.target.innerText;
+        const value = await contract.methods.getVoter(voterRequested).call({ from: accounts[0] })
+        setVoterAddress(voterRequested);
         setVoterHasVoted(value.hasVoted);
         setVoterIsRegistered(value.isRegistered);
         setVoterProposalVotedId(value.votedProposalId);
@@ -78,58 +73,54 @@ function Voters({ setNotification }) {
     };
 
     return (
-        <>
+        <div className="component-section">
             <h2>les électeurs</h2>
             <p>Nous sommes transparents. A tout moment vous pouvez visualiser le vote d'un autre électeur. Il vous faudra l'adresse publique
             du wallet.</p>
 
             <h3>Liste des électeurs</h3>
-            <br/>
-            {addresses.map((ad) => (
-                <div className="list-voters" key={ad}>{ad}</div>
-            ))}
-
-            <br/>
-            <h3>Tapez l'adresse d'un électeur pour voir les détails</h3>
+            <p className='bold'>Cliquez sur un électeur pour voir les détails</p>
             <div className="section-block">
-                <div>
-                    <input
-                    type="text"
-                    placeholder="address, ex: 0xdf......."
-                    value={inputValue}
-                    onChange={handleInputGetVoterChange}
-                    />
-                    <StyledButton click={getVoter} text="Visualiser un électeur" />
-                </div>
                 <div id="voter-container" ref={voterEle}>
                     {voterAddress.length > 0 &&
                         <>
-                        Electeur: <strong>{voterAddress}</strong>
-                        <br/>
-                        Enregistré: <strong>{voterIsRegistered ? "oui" : "non"}</strong>
-                        <br/>
-                        A voté: <strong>{voterHasVoted ? "oui" : "non"}</strong>
-                        <br/>
-                        Proposition votée: <strong>{voterProposalVotedId}</strong>
+                            Electeur: <strong>{voterAddress}</strong>
+                            <br/>
+                            Enregistré: <strong>{voterIsRegistered ? "oui" : "non"}</strong>
+                            <br/>
+                            A voté: <strong>{voterHasVoted ? "oui" : "non"}</strong>
+                            <br/>
+                            Proposition votée: <strong>{voterProposalVotedId}</strong>
                         </>
                     }
-                 </div>
+                </div>
             </div>
+            <div className="list-voters-container">
+            {addresses.map((ad) => (
+                <div onClick={getVoter} className="list-voters" key={ad}>{ad}</div>
+            ))}
+            </div>
+
             <br/>
-            <h3>Ajouter un électeur</h3>
 
-            <p>Attention, seul le propriétaire peut ajouter un électeur</p>
+            { currentStep === workflowStatusArray[0] &&
+             <div id='add-votet-container'>
+                <h3>Ajouter un électeur</h3>
 
-            <div  className="section-block">
-                <input
-                    type="text"
-                    placeholder="address, ex: 0xdf......."
-                    value={inputAddValue}
-                    onChange={handleInputAddVoterChange}
-                />
-                <StyledButton click={addVoter} text="Ajouter un électeur" />
-            </div>
-        </>
+                <p>Attention, seul le propriétaire peut ajouter un électeur</p>
+
+                <div  className="section-block">
+                    <input
+                        type="text"
+                        placeholder="address, ex: 0xdf......."
+                        value={inputAddValue}
+                        onChange={handleInputAddVoterChange}
+                    />
+                    <StyledButton click={addVoter} text="Ajouter un électeur" />
+                </div>
+             </div>
+            }
+        </div>
     )
 }
 

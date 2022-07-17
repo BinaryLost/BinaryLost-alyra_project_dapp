@@ -1,8 +1,7 @@
 function NoticeNoArtifact() {
   return (
     <p>
-      ⚠️ Cannot find <span className="code">SimpleStorage</span> contract artifact.
-      Please complete the above preparation first, then restart the react dev server.
+      ⚠️Le contrat <span className="code">Voting</span> n'a pas pu être trouvé.
     </p>
   );
 }
