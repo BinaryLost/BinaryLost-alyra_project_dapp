@@ -13,6 +13,7 @@
 }
 
 #App .container {
+  background: rgb(255,255,255,0.8);
   width: 100%;
   min-width: 60rem;
   max-width: 75rem;

@@ -1,5 +1,5 @@
 import Title from "./Title";
-import logo from '../../assets/logo.jpeg'
+import logo from '../../assets/logo.png'
 import bannerImage from '../../assets/banner.png'
 import './Banner.css'
 
