@@ -1,9 +1,9 @@
-function NoticeWrongNetwork() {
+function NoticeWrongLogin() {
   return (
     <p>
-      ⚠️ MetaMask is not connected to the same network as the one you deployed to.
+      ⚠️ MetaMask is not connected.
     </p>
   );
 }
 
-export default NoticeWrongNetwork;
+export default NoticeWrongLogin;

@@ -3,7 +3,7 @@ import useEth from "../../contexts/EthContext/useEth";
 import './Voters.css'
 import StyledButton from "../Buttons/StyledButton";
 
-function Voters({workflowStatusArray,currentStep, setNotification }) {
+function Voters({voterAddresses, setVoterAddresses, owner,currentStep, setNotification }) {
 
     const voterEle = useRef(null);
 
@@ -13,7 +13,6 @@ function Voters({workflowStatusArray,currentStep, setNotification }) {
     const [voterHasVoted,setVoterHasVoted] = useState(false);
     const [voterProposalVotedId,setVoterProposalVotedId] = useState(0);
     const [voterIsRegistered,setVoterIsRegistered] = useState(false);
-    const [addresses,setAddresses] = useState([]);
 
 
     useEffect(() => {
@@ -42,7 +41,7 @@ function Voters({workflowStatusArray,currentStep, setNotification }) {
                 for (const k in r){
                     toArray[k] = r[k].returnValues[0];
                 }
-                setAddresses(toArray);
+                setVoterAddresses(toArray);
             }
         );
         return listAddresses;
@@ -54,11 +53,17 @@ function Voters({workflowStatusArray,currentStep, setNotification }) {
 
     const getVoter = async (e) => {
         const voterRequested = e.target.innerText;
+        if(!voterAddresses.includes(accounts[0])){
+            e.preventDefault();
+            setNotification(accounts[0] + ' Vous devez être électeur pour voir les détails du compte ' +  voterRequested);
+        }
         const value = await contract.methods.getVoter(voterRequested).call({ from: accounts[0] })
         setVoterAddress(voterRequested);
         setVoterHasVoted(value.hasVoted);
         setVoterIsRegistered(value.isRegistered);
-        setVoterProposalVotedId(value.votedProposalId);
+        if(value.hasVoted){
+            setVoterProposalVotedId(parseInt(value.votedProposalId)+1);
+        }
     };
 
     const addVoter = async () => {
@@ -75,11 +80,15 @@ function Voters({workflowStatusArray,currentStep, setNotification }) {
     return (
         <div className="component-section">
             <h2>les électeurs</h2>
-            <p>Nous sommes transparents. A tout moment vous pouvez visualiser le vote d'un autre électeur. Il vous faudra l'adresse publique
-            du wallet.</p>
-
-            <h3>Liste des électeurs</h3>
-            <p className='bold'>Cliquez sur un électeur pour voir les détails</p>
+            <br/>
+            <p>Nous sommes transparents. En tant qu'électeur, à tout moment vous pouvez visualiser le vote d'un autre électeur.</p>
+            { voterAddresses.length > 0 &&
+                <>
+                <br/>
+                <h3>Liste des électeurs</h3>
+                <p className='bold'>Cliquez sur un électeur pour voir les détails</p>
+            </>
+            }
             <div className="section-block">
                 <div id="voter-container" ref={voterEle}>
                     {voterAddress.length > 0 &&
@@ -95,15 +104,23 @@ function Voters({workflowStatusArray,currentStep, setNotification }) {
                     }
                 </div>
             </div>
-            <div className="list-voters-container">
-            {addresses.map((ad) => (
-                <div onClick={getVoter} className="list-voters" key={ad}>{ad}</div>
-            ))}
-            </div>
-
-            <br/>
-
-            { currentStep === workflowStatusArray[0] &&
+            {voterAddresses.length === 0 &&
+                <>
+                <div className="bold">
+                    Aucun électeur n'a été enregistré
+                </div>
+                <br />
+                </>
+            }
+            {voterAddresses.length > 0 &&
+                <div className="list-voters-container">
+                    {voterAddresses.map((ad) => (
+                        <div onClick={getVoter} className="list-voters" key={ad}>{ad}</div>
+                    ))}
+                    <br/>
+                </div>
+            }
+            { parseInt(currentStep)  === 0 && accounts[0] === owner &&
              <div id='add-votet-container'>
                 <h3>Ajouter un électeur</h3>
 

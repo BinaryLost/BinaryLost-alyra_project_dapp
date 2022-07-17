@@ -1,33 +1,20 @@
-import {useEffect, useState} from "react";
-import './Votes.css'
+import './Tally.css'
 import useEth from "../../contexts/EthContext/useEth";
 import StyledButton from "../Buttons/StyledButton";
 
-function Votes({voterAddresses, currentStep, setNotification}) {
+function Tally({ owner, setCurrentStep, currentStep, setNotification} ) {
     const {state: {contract, accounts}} = useEth();
-    const [inputAddVoteValue, setInputAddVoteValue] = useState('');
-    const [hasVoted, setHasVoted] = useState(false);
-    const [votedProposalId, setVotedProposalId] = useState(-1);
 
-    useEffect(()=>{
-        const getVoter = async (e) => {
-            const value = await contract.methods.getVoter(accounts[0]).call({from: accounts[0]});
-            setHasVoted(value.hasVoted);
-            setVotedProposalId(value.votedProposalId);
+    const tallyVote = async (e) => {
+        if(accounts[0] !== owner){
+            return;
         }
-        getVoter();
-    },[]);
-
-    const handleInputVoteChange = e => {
-        setInputAddVoteValue(e.target.value);
-    };
-
-    const addVote = async () => {
         try {
-            const transac = await contract.methods.setVote(parseInt(inputAddVoteValue) - 1).send({from: accounts[0]});
-            const eventChange = await transac.events.Voted.returnValues.proposalId;
-            setNotification(`Votre vote pour la proposition ${parseInt(eventChange) + 1} a bien été pris en compte`);
-            setHasVoted(true);
+            const nextStep = parseInt(currentStep) + 1;
+            await contract.methods.tallyVotes().send({ from: accounts[0] }).then((r) => {
+                setCurrentStep(nextStep);
+                setNotification(`Les votes sont comptabilisés, passage à la dernière étape`);
+            });
         } catch (error) {
             console.error(error.message);
         }
@@ -35,39 +22,13 @@ function Votes({voterAddresses, currentStep, setNotification}) {
 
     return (
         <>
-            {
-                parseInt(currentStep) === 3 &&
-                voterAddresses.includes(accounts[0]) &&
-
-                <div className="component-section">
-                    {!hasVoted &&
-                        <>
-                            <h2>Il est l'heure de voter</h2>
-                            <br/>
-                            <p>Entrez le numéro de la proposition et validez pour enregistrer le vote</p>
-                            <div className="section-block">
-                                <input
-                                    type="text"
-                                    placeholder="Numéro de la proposition: exemple: 1 "
-                                    onChange={handleInputVoteChange}
-                                    value={inputAddVoteValue}
-                                />
-                                <StyledButton click={addVote} text="Votez pour votre proposition"/>
-                            </div>
-                        </>}
-                    {hasVoted &&
-                        <>
-                            <h2>Votre vote est pris en compte</h2>
-                            <h3 id="vote-reminder">Vous avez voté pour la proposition {parseInt(votedProposalId)+1}</h3>
-                            <br/>
-                            <p>Les votes seront comptabilisées lorsque l'administrateur fera le nécessaire</p>
-                        </>
-                    }
+            {owner === accounts[0] &&
+                <div className="section-block">
+                    <StyledButton click={tallyVote} text="Lancez la comptabilisation des votes"/>
                 </div>
             }
         </>
-
     )
 }
 
-export default Votes;
+export default Tally;

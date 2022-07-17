@@ -1,7 +1,7 @@
 function NoticeNoArtifact() {
   return (
     <p>
-      ⚠️Le contrat <span className="code">Voting</span> n'a pas pu être trouvé.
+      ⚠️Connectez vous à Metamask pour continuer.
     </p>
   );
 }

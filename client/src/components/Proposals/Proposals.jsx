@@ -1,142 +1,91 @@
-import {useRef, useEffect, useState} from "react";
-import useEth from "../../contexts/EthContext/useEth";
-import './Voters.css'
+import {useState,useEffect} from "react";
+import './Proposals.css'
 import StyledButton from "../Buttons/StyledButton";
+import useEth from "../../contexts/EthContext/useEth";
 
-function Voters({voterAddresses, setVoterAddresses, owner,currentStep, setNotification }) {
+function Proposals({proposals,setProposals,setNotification, currentStep,voterAddresses}) {
+    const {state: {contract, accounts}} = useEth();
+    const [inputAddProposalValue,setInputAddProposalValue] = useState('');
 
-    const voterEle = useRef(null);
+    useEffect(()=> {
+        logProposals();
+    },[])
 
-    const { state: { contract, accounts } } = useEth();
-    const [inputAddValue,setInputAddValue] = useState('');
-    const [voterAddress,setVoterAddress] = useState('');
-    const [voterHasVoted,setVoterHasVoted] = useState(false);
-    const [voterProposalVotedId,setVoterProposalVotedId] = useState(0);
-    const [voterIsRegistered,setVoterIsRegistered] = useState(false);
-
-
-    useEffect(() => {
-        voterEle.current.classList.add("flash");
-        const flash = setTimeout(() => {
-            voterEle.current.classList.remove("flash");
-        }, 300);
-        return () => {
-            clearTimeout(flash);
-        };
-    }, [voterAddress,voterHasVoted,voterProposalVotedId,voterIsRegistered]);
-
-    useEffect(() => {
-        logAdresses();
-    }, []);
-
-
-    const logAdresses = async () => {
-        let options = {
-            fromBlock: '0',
-            to: 'latest'
-        };
-        const listAddresses = await contract.getPastEvents('VoterRegistered', options).then(
-            (r)=>{
-                let toArray = [];
-                for (const k in r){
-                    toArray[k] = r[k].returnValues[0];
-                }
-                setVoterAddresses(toArray);
-            }
-        );
-        return listAddresses;
+    const handleInputAddProposalChange = e => {
+        setInputAddProposalValue(e.target.value);
     };
 
-    const handleInputAddVoterChange = e => {
-        setInputAddValue(e.target.value);
-    };
-
-    const getVoter = async (e) => {
-        const voterRequested = e.target.innerText;
-        if(!voterAddresses.includes(accounts[0])){
-            e.preventDefault();
-            setNotification(accounts[0] + ' Vous devez être électeur pour voir les détails du compte ' +  voterRequested);
-        }
-        const value = await contract.methods.getVoter(voterRequested).call({ from: accounts[0] })
-        setVoterAddress(voterRequested);
-        setVoterHasVoted(value.hasVoted);
-        setVoterIsRegistered(value.isRegistered);
-        setVoterProposalVotedId(value.votedProposalId);
-    };
-
-    const addVoter = async () => {
+    const addProposal = async () => {
         try{
-            const transac = await contract.methods.addVoter(inputAddValue).send({ from: accounts[0] });
-            const eventChange = await transac.events.VoterRegistered.returnValues.voterAddress;
-            setNotification(`L'électeur ${eventChange} a bien été ajouté à la liste`);
-            logAdresses();
+            const transac = await contract.methods.addProposal(inputAddProposalValue).send({ from: accounts[0] });
+            const eventChange = await transac.events.ProposalRegistered.returnValues.proposalId;
+            setNotification(`La proposition ${eventChange} a bien été ajoutée à la liste`);
+            logProposals();
         }catch(error){
             console.error(error.message);
         }
     };
 
-    return (
-        <div className="component-section">
-            <h2>les électeurs</h2>
-            <br/>
-            <p>Nous sommes transparents. En tant qu'électeur, à tout moment vous pouvez visualiser le vote d'un autre électeur.</p>
-            { voterAddresses.length > 0 &&
-                <>
-                <br/>
-                <h3>Liste des électeurs</h3>
-                <p className='bold'>Cliquez sur un électeur pour voir les détails</p>
-            </>
-            }
-            <div className="section-block">
-                <div id="voter-container" ref={voterEle}>
-                    {voterAddress.length > 0 &&
-                        <>
-                            Electeur: <strong>{voterAddress}</strong>
-                            <br/>
-                            Enregistré: <strong>{voterIsRegistered ? "oui" : "non"}</strong>
-                            <br/>
-                            A voté: <strong>{voterHasVoted ? "oui" : "non"}</strong>
-                            <br/>
-                            Proposition votée: <strong>{voterProposalVotedId}</strong>
-                        </>
+
+    const logProposals = async () => {
+        let options = {
+            fromBlock: '0',
+            to: 'latest'
+        };
+        try{
+            const listProposals = await contract.getPastEvents('ProposalRegistered', options).then(
+                async (r) => {
+                    let toArray = [];
+                    for (const k in r) {
+                        let id = r[k].returnValues[0];
+                        await contract.methods.getOneProposal(id).call({from: accounts[0]}).then((r)=>{
+                            toArray.push({id: id, description: r.description});
+                        });
                     }
-                </div>
-            </div>
-            {voterAddresses.length === 0 &&
-                <>
-                <div className="bold">
-                    Aucun électeur n'a été enregistré
-                </div>
-                <br />
-                </>
-            }
-            {voterAddresses.length > 0 &&
-                <div className="list-voters-container">
-                    {voterAddresses.map((ad) => (
-                        <div onClick={getVoter} className="list-voters" key={ad}>{ad}</div>
-                    ))}
-                    <br/>
-                </div>
-            }
-            { parseInt(currentStep)  === 0 && accounts[0] === owner &&
-             <div id='add-votet-container'>
-                <h3>Ajouter un électeur</h3>
+                    setProposals(toArray);
+                }
+        );
+        }catch (error) {
+            console.log(error);
+        }
+    };
 
-                <p>Attention, seul le propriétaire peut ajouter un électeur</p>
 
-                <div  className="section-block">
-                    <input
-                        type="text"
-                        placeholder="address, ex: 0xdf......."
-                        value={inputAddValue}
-                        onChange={handleInputAddVoterChange}
-                    />
-                    <StyledButton click={addVoter} text="Ajouter un électeur" />
+    return (
+        <>
+            {parseInt(currentStep) > 0 && voterAddresses.includes(accounts[0]) &&
+                <div className="component-section">
+                    <h2>Les propositions</h2>
+                        <div id='add-proposal-container'>
+                            <div className="list-voters-container">
+                                {proposals.map((pro) => (
+                                    <div key={pro.id} className="list-proposals">
+                                        Proposition {parseInt(pro.id)  + 1} : {pro.description}
+                                    </div>
+                                ))}
+                                <br/>
+                            </div>
+
+                            {parseInt(currentStep) === 1 &&
+                                <>
+                                <h3>Ajouter une proposition</h3>
+
+                                <div  className="section-block">
+                                <input
+                                type="text"
+                                placeholder="Description"
+                                onChange={handleInputAddProposalChange}
+                                value={inputAddProposalValue}
+                                />
+                                <StyledButton click={addProposal} text="Ajouter une proposition" />
+                                </div>
+                                </>
+                            }
+                        </div>
                 </div>
-             </div>
             }
-        </div>
+        </>
     )
 }
 
-export default Voters;
+export default Proposals;

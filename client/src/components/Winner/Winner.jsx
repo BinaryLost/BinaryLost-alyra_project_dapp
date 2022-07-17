@@ -1,34 +1,38 @@
-import './Tally.css'
+import {useState} from "react";
+import './Winner.css'
 import useEth from "../../contexts/EthContext/useEth";
-import StyledButton from "../Buttons/StyledButton";
 
-function Tally({ owner, setCurrentStep, currentStep, setNotification} ) {
-    const {state: {contract, accounts}} = useEth();
+function Winner({owner}) {
+    const {state: {contract}} = useEth();
+    const [winningProposalId, setWinningProposalId] = useState();
+    const [winningProposalDescription, setWinningProposalDescription] = useState();
 
-    const tallyVote = async (e) => {
-        if(accounts[0] !== owner){
-            return;
-        }
-        try {
-            const nextStep = parseInt(currentStep) + 1;
-            await contract.methods.tallyVotes().send({ from: accounts[0] }).then((r) => {
-                setCurrentStep(nextStep);
-                setNotification(`Les votes sont comptabilisés, passage à la dernière étape`);
-            });
-        } catch (error) {
-            console.error(error.message);
+    const winner = async (e) => {
+        try{
+            await contract.methods.winningProposalID().call({from: owner})
+                .then(
+                    (r) => {
+                        setWinningProposalId(r);
+                    }
+                )
+                .then(()=>{
+                    contract.methods.getOneProposal(winningProposalId).call({ from: owner }).then(
+                        r => setWinningProposalDescription(r.description)
+                    )
+                })
+        }catch (err){
         }
     };
 
+    winner();
+
     return (
-        <>
-            {owner === accounts[0] &&
-                <div className="section-block">
-                    <StyledButton click={tallyVote} text="Lancez la comptabilisation des votes"/>
-                </div>
-            }
-        </>
+        <div className="section-block">
+            <p id="winner-is">
+                Winner is : {parseInt(winningProposalId) + 1} : {winningProposalDescription}
+            </p>
+        </div>
     )
 }
 
-export default Tally;
+export default Winner;
