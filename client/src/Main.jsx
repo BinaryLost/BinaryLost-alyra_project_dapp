@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import useEth from "./contexts/EthContext/useEth";
 import NoticeNoArtifact from "./components/NoticeNoArtifact";
 import NoticeWrongNetwork from "./components/NoticeWrongNetwork";
@@ -28,7 +28,7 @@ function Main() {
       try{
            await contract.methods.workflowStatus().call({ from: accounts[0] }).then(
               (r) => {
-                  setCurrentStep(workflowStatusArray[r]);
+                  setCurrentStep(r);
               }
           );
       }catch (error){}
@@ -38,7 +38,7 @@ function Main() {
   const main =
     <>
         <ContractAddress />
-        <Steps currentStep={currentStep} setCurrentStep={setCurrentStep} />
+        <Steps workflowStatusArray={workflowStatusArray} currentStep={currentStep} setCurrentStep={setCurrentStep} setNotification={setNotification} />
         <Voters workflowStatusArray={workflowStatusArray} currentStep={currentStep} setNotification={setNotification} />
     </>;
 
