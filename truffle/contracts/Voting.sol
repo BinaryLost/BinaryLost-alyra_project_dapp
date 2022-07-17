@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
+pragma solidity 0.8.13;
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 /// @title Système de vote, cours Alyra
 /// @author Stéphane Moriggi
@@ -73,8 +73,9 @@ contract Voting is Ownable {
 
     /// @notice adding proposal to blockchain
     /// @param _desc string: description of proposal
-    /// @dev This can be triggered by voters whitelisted only
+    /// @dev Limitation des propositions pour empêcher faille DOS. Nombre 5 arbitraire ici.
     function addProposal(string memory _desc) external onlyVoters {
+        require(proposalsArray.length < 5, 'La limite de propositions est atteinte');
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, 'Proposals are not allowed yet');
         require(keccak256(abi.encode(_desc)) != keccak256(abi.encode("")), 'Vous ne pouvez pas ne rien proposer'); /// facultatif
 
