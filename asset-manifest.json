@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/css/main.8d5fb6a0.chunk.css",
+    "main.js": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/main.8aaaf5c3.chunk.js",
+    "main.js.map": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/main.8aaaf5c3.chunk.js.map",
+    "runtime-main.js": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/runtime-main.a8d4cb72.js",
+    "runtime-main.js.map": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/runtime-main.a8d4cb72.js.map",
+    "static/js/2.5ea37a62.chunk.js": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/2.5ea37a62.chunk.js",
+    "static/js/2.5ea37a62.chunk.js.map": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/2.5ea37a62.chunk.js.map",
+    "index.html": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/index.html",
+    "static/css/main.8d5fb6a0.chunk.css.map": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/css/main.8d5fb6a0.chunk.css.map",
+    "static/js/2.5ea37a62.chunk.js.LICENSE.txt": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/js/2.5ea37a62.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/media/Reactor_Sans_Regular.4f2f5c2f.ttf",
+    "static/media/banner.35db5814.png": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/media/banner.35db5814.png",
+    "static/media/logo.02c49f56.jpeg": "/BinaryLost/BinaryLost-alyra_project_dapp/tree/master/client/static/media/logo.02c49f56.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a8d4cb72.js",
+    "static/js/2.5ea37a62.chunk.js",
+    "static/css/main.8d5fb6a0.chunk.css",
+    "static/js/main.8aaaf5c3.chunk.js"
+  ]
+}
