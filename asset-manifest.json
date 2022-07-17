@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/BinaryLost-alyra_project_dapp/static/css/main.6854d67c.chunk.css",
+    "main.css": "/BinaryLost-alyra_project_dapp/static/css/main.be976c91.chunk.css",
     "main.js": "/BinaryLost-alyra_project_dapp/static/js/main.ff94792f.chunk.js",
     "main.js.map": "/BinaryLost-alyra_project_dapp/static/js/main.ff94792f.chunk.js.map",
     "runtime-main.js": "/BinaryLost-alyra_project_dapp/static/js/runtime-main.3ca5fa8b.js",
@@ -8,16 +8,16 @@
     "static/js/2.af38ff82.chunk.js": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js",
     "static/js/2.af38ff82.chunk.js.map": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js.map",
     "index.html": "/BinaryLost-alyra_project_dapp/index.html",
-    "static/css/main.6854d67c.chunk.css.map": "/BinaryLost-alyra_project_dapp/static/css/main.6854d67c.chunk.css.map",
+    "static/css/main.be976c91.chunk.css.map": "/BinaryLost-alyra_project_dapp/static/css/main.be976c91.chunk.css.map",
     "static/js/2.af38ff82.chunk.js.LICENSE.txt": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/BinaryLost-alyra_project_dapp/static/media/background-app.c224bd7f.jpg",
+    "static/media/index.css": "/BinaryLost-alyra_project_dapp/static/media/background-app.dbe365af.jpg",
     "static/media/banner.35db5814.png": "/BinaryLost-alyra_project_dapp/static/media/banner.35db5814.png",
     "static/media/logo.bfe9f4b5.png": "/BinaryLost-alyra_project_dapp/static/media/logo.bfe9f4b5.png"
   },
   "entrypoints": [
     "static/js/runtime-main.3ca5fa8b.js",
     "static/js/2.af38ff82.chunk.js",
-    "static/css/main.6854d67c.chunk.css",
+    "static/css/main.be976c91.chunk.css",
     "static/js/main.ff94792f.chunk.js"
   ]
 }
