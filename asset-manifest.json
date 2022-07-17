@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/BinaryLost-alyra_project_dapp/static/css/main.12dd0e50.chunk.css",
-    "main.js": "/BinaryLost-alyra_project_dapp/static/js/main.8aaaf5c3.chunk.js",
-    "main.js.map": "/BinaryLost-alyra_project_dapp/static/js/main.8aaaf5c3.chunk.js.map",
+    "main.css": "/BinaryLost-alyra_project_dapp/static/css/main.64cb8690.chunk.css",
+    "main.js": "/BinaryLost-alyra_project_dapp/static/js/main.77c884dc.chunk.js",
+    "main.js.map": "/BinaryLost-alyra_project_dapp/static/js/main.77c884dc.chunk.js.map",
     "runtime-main.js": "/BinaryLost-alyra_project_dapp/static/js/runtime-main.3ca5fa8b.js",
     "runtime-main.js.map": "/BinaryLost-alyra_project_dapp/static/js/runtime-main.3ca5fa8b.js.map",
-    "static/js/2.01e68163.chunk.js": "/BinaryLost-alyra_project_dapp/static/js/2.01e68163.chunk.js",
-    "static/js/2.01e68163.chunk.js.map": "/BinaryLost-alyra_project_dapp/static/js/2.01e68163.chunk.js.map",
+    "static/js/2.af38ff82.chunk.js": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js",
+    "static/js/2.af38ff82.chunk.js.map": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js.map",
     "index.html": "/BinaryLost-alyra_project_dapp/index.html",
-    "static/css/main.12dd0e50.chunk.css.map": "/BinaryLost-alyra_project_dapp/static/css/main.12dd0e50.chunk.css.map",
-    "static/js/2.01e68163.chunk.js.LICENSE.txt": "/BinaryLost-alyra_project_dapp/static/js/2.01e68163.chunk.js.LICENSE.txt",
+    "static/css/main.64cb8690.chunk.css.map": "/BinaryLost-alyra_project_dapp/static/css/main.64cb8690.chunk.css.map",
+    "static/js/2.af38ff82.chunk.js.LICENSE.txt": "/BinaryLost-alyra_project_dapp/static/js/2.af38ff82.chunk.js.LICENSE.txt",
     "static/media/index.css": "/BinaryLost-alyra_project_dapp/static/media/Reactor_Sans_Regular.4f2f5c2f.ttf",
     "static/media/banner.35db5814.png": "/BinaryLost-alyra_project_dapp/static/media/banner.35db5814.png",
     "static/media/logo.02c49f56.jpeg": "/BinaryLost-alyra_project_dapp/static/media/logo.02c49f56.jpeg"
   },
   "entrypoints": [
     "static/js/runtime-main.3ca5fa8b.js",
-    "static/js/2.01e68163.chunk.js",
-    "static/css/main.12dd0e50.chunk.css",
-    "static/js/main.8aaaf5c3.chunk.js"
+    "static/js/2.af38ff82.chunk.js",
+    "static/css/main.64cb8690.chunk.css",
+    "static/js/main.77c884dc.chunk.js"
   ]
 }
