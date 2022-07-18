@@ -18939,10 +18939,16 @@
       "links": {},
       "address": "0x013f1cc725D9c01549B7acc29DDDEB90B403F05f",
       "transactionHash": "0x2ff510bac3785076f90d57aa3b727463fbc42419b96e801034a49255b0b658e2"
+    },
+    "1658143552253": {
+      "events": {},
+      "links": {},
+      "address": "0xd34fbdcb6e902D9d14EbA3Be1403164e4caA0F57",
+      "transactionHash": "0xbe2b76e5b3479d38af51778359ac724f85018ac5aacde1e6005a34e167c42405"
     }
   },
   "schemaVersion": "3.4.8",
-  "updatedAt": "2022-07-17T21:15:40.101Z",
+  "updatedAt": "2022-07-18T11:31:48.824Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Stéphane Moriggi",
